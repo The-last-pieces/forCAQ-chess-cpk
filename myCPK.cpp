@@ -68,6 +68,7 @@ void chess::control(string msg, long long userid)
 			{
 				now = Mode::start;
 				playerid[1] = userid;
+
 				stringstream ss;
 				ss << userid << "½ÓÊÜÓÎÏ·";
 				msgque.push_back(ss.str());
