@@ -79,6 +79,7 @@ void chess::control(string msg, pair<long long, string> user, long long group)
 
 			stringstream ss;
 			ss << user.second << "发起游戏";
+			clear_table();
 			init_table();
 			msgque.push_back(ss.str());
 		}
@@ -86,26 +87,28 @@ void chess::control(string msg, pair<long long, string> user, long long group)
 	case Mode::waiting:
 		if (playerid[0] != user.first)
 		{
-			if (msg == "chess")
+			if (msg == "join")
 			{
 				now = Mode::start;
 				playerid[1] = user.first;
 
 				stringstream ss;
-				ss << user.second << "加入游戏";
+				ss << user.second << "加入了游戏";
 				msgque.push_back(ss.str());
-				msgque.push_back(map_to_str());
+
+				ss.str("");
+				ss << "游戏开始\n先手为:[CQ:at,qq=" << playerid[role] << "]\n" << map_to_str();
+				msgque.push_back(ss.str());
 			}
 		}
 		else
 		{
 			if (msg == "cancle")
 			{
-				clear_table(); 
 				stringstream ss;
 				ss << user.second << "取消了游戏";
-				init_table();
 				msgque.push_back(ss.str());
+				clear_table();
 			}
 		}
 		break;
@@ -146,9 +149,10 @@ void chess::control(string msg, pair<long long, string> user, long long group)
 				{
 					stringstream ss;
 					ss << map_to_str();
-					ss << "\n[CQ:at, qq = " << playerid[role] << "]";
+					ss << "\n[CQ:at,qq=" << playerid[role] << "]";
 					ss << " 玩家胜利\n";
 					msgque.push_back(ss.str());
+					clear_table();
 					break;
 				}
 				else
@@ -178,7 +182,6 @@ void chess::clear_table()
 	now = Mode::sleep;
 	history.clear();
 	playerid[0] = playerid[1] = 0;
-	groupid = 0;
 }
 bool chess::action(int x, int y)
 {
