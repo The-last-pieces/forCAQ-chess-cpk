@@ -5,16 +5,18 @@
 using namespace std;
 int main(void)
 {
-	chess test;
+	chess* test = chess::getinstance();
 	string msg;
+	int id = 50;
 	while (1)
 	{
+		id = 150 - id;
 		getline(cin, msg);
-		test.control(msg, 100);
+		test->control(msg, id);
 		
-		while (test.msg_size())
+		while (test->msg_size())
 		{
-			cout << test.pop_msg() << endl;
+			cout << test->pop_msg() << endl;
 		}
 	}
 }
